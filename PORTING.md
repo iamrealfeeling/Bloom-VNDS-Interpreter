@@ -1,92 +1,90 @@
-# 🛠️ Comprehensive VNDS Porting & Adaptation Manual
+# 🛠️ Руководство по портированию и адаптации новелл (PORTING)
 
-**Author / Maintainer:** iamfeelingbad  
-**Target Platform:** PSP (Bloom VNDS Interpreter / LuaPlayerYT)
-
----
-
-## 📌 Introduction
-
-This manual provides complete technical specifications for porting, adapting, and structuring visual novels to run on the Bloom VNDS engine for PSP. Adhering to these guidelines ensures 100% compatibility, correct audio playback, and stable rendering.
+**Автор:** iamfeelingbad  
 
 ---
 
-## 📁 Novel Folder Hierarchy
+## 📌 Введение
 
-Every novel must be placed in its own folder inside the `novels/` directory:
+Данное руководство описывает технические требования, структуру файлов, аудиоформаты и тонкости синтаксиса скриптов, необходимые для успешного переноса и портирования визуальных новелл VNDS на движок Bloom VNDS Interpreter для PlayStation Portable.
+
+---
+
+## 📁 Структура папки новеллы
+
+Каждая новелла должна находиться в собственной папке внутри директории `novels/`:
 
 ```text
 novels/
 └── YourNovelName/
-    ├── info.txt           # Metadata (Title & Description)
-    ├── icon.png           # 128x128 menu thumbnail icon
-    ├── thumbnail.png      # Fallback menu thumbnail
-    ├── background/        # Background images (.png, .jpg)
-    ├── foreground/        # Character sprites & overlays (.png)
-    ├── sound/             # BGM (.mp3 / .ogg) and SFX / Voices (.wav)
-    └── script/            # Compiled or plain text VNDS scripts (*.scr)
+    ├── info.txt           # Метаданные (Название новеллы)
+    ├── icon.png           # Иконка 128x128 для меню (опционально)
+    ├── thumbnail.png      # Запасная миниатюра
+    ├── background/        # Фоновые изображения (.png, .jpg)
+    ├── foreground/        # Спрайты персонажей и оверлеи (.png)
+    ├── sound/             # Музыка BGM (.mp3 / .ogg) и звуки/озвучка (.wav)
+    └── script/            # Скрипты движка VNDS (*.scr)
 ```
 
 ### 1. `info.txt`
+Создайте текстовый файл `info.txt` в корне папки новеллы:
 ```ini
-title=Your Visual Novel Title
+title=Название вашей новеллы
 ```
 
 ---
 
-## 🎵 Audio Encoding & Codec Requirements (PSP Hardware)
+## 🎵 Технические требования к аудио (Важно для PSP)
 
-PSP audio handling has specific limitations. Follow these rules strictly to avoid silence or pitch distortion:
+Аппаратная часть PSP и аудиобиблиотека имеют жесткие требования к кодекам:
 
-### 1. Background Music (BGM)
-- **Script Command:** `music filename.mp3` or `music music/filename.mp3`
-- **Engine Resolution:** The engine's `audio.resolvePath` automatically checks for sibling **`.ogg`** files whenever `.mp3` or `.aac` is requested.
-- **Required OGG Format:**
-  - **Sample Rate:** `44100 Hz`
-  - **Channels:** `Stereo` (2 channels). *Note: Mono OGG files on BGM Channel 7 play at incorrect pitch/speed.*
-  - **Codec:** Ogg Vorbis.
+### 1. Фоновая музыка (BGM)
+- **Команда в скрипте:** `music filename.ogg` или `music music/filename.ogg`
+- **Разрешение путей:** Интерпретатор использует только ogg формат для музыки, поэтому при портировании он читает `.mp3` или `.aac` пути в скриптах а воиспроизводит **`.ogg`** с таким же именем.
+- **Требования к `.ogg`:**
+  - **Частота дискретизации:** `44100 Hz`
+  - **Каналы:** `Stereo` (2 канала). *Примечание: Моно-файлы на канале фоновой музыки (канал 7) воспроизводятся с ускоренным питчем.*
+  - **Кодек:** Ogg Vorbis.
 
-### 2. Sound Effects & Voices (SFX)
-- **Script Command:** `sound filename.wav`
-- **Required WAV Format:**
-  - **Codec:** Uncompressed PCM (Format Code `1`).
-  - **Sample Rate:** `44100 Hz` (recommended matching engine standard) or `22050 Hz`.
-  - **Channels:** `Mono` (1 channel).
-  - **Bit Depth:** `16-bit` little-endian.
-  - **Header:** Must contain a valid 44-byte **RIFF/WAVE** header. Headerless raw PCM streams will fail to load and remain silent.
+### 2. Звуковые эффекты и озвучка (SFX / Voices)
+- **Команда в скрипте:** `sound filename.wav`
+- **Требования к `.wav`:**
+  - **Кодек:** Несжатый PCM (Format Code `1`).
+  - **Частота:** `44100 Hz`.
+  - **Каналы:** `Mono` (1 канал).
+  - **Разрядность:** `16-bit` little-endian.
+  - **Заголовок:** Обязательно наличие корректного 44-байтного RIFF/WAVE заголовка. «Голые» потоки сырых данных без заголовка будут проигрываться тишиной.
 
 ---
 
-## 📜 Script Syntax & Commands (`.scr`)
+## 📜 Синтаксис скриптов (`.scr`)
 
-Scripts are processed line by line. Supported command syntax:
+Скрипты обрабатываются построчно. Основные поддерживаемые команды:
 
-| Command | Syntax Example | Description |
+| Команда | Пример использования | Описание |
 | :--- | :--- | :--- |
-| **Background** | `bgload image.png` | Loads and displays background |
-| **Text Narration** | `text @Narration line...` | Displays narrator text box |
-| **Character Dialogue** | `text Character: Line...` | Displays character dialogue |
-| **Clear Text** | `text ~` | Clears text box |
-| **Wait for Click** | `text !` | Pauses execution until user presses X |
-| **Music Play** | `music music.mp3` | Plays background music |
-| **Sound Play** | `sound effect.wav` | Plays sound effect / voice |
-| **Choices** | `choice Option A \| Option B` | Displays interactive choice menu |
-| **Conditionals** | `if selected == 1 ... fi` | Conditional branch based on variable |
-| **Variables** | `setvar var = 1` | Sets local or global variable |
-| **Script Jump** | `jump next.scr` | Jumps to another script file |
+| **Фон** | `bgload image.png` | Загрузка и показ фона |
+| **Реплика / Нарратив** | `text @Текст повествования...` | Вывод текста повествования |
+| **Диалог персонажа** | `text Имя: Реплика...` | Вывод реплики персонажа с именем |
+| **Очистка текста** | `text ~` | Очистка текстового окна |
+| **Ожидание клика** | `text !` | Пауза до нажатия игроком кнопки ✕ |
+| **Музыка** | `music music.mp3` | Включение BGM (автоматом ищет `.ogg`) |
+| **Звук** | `sound effect.wav` | Воспроизведение SFX / голоса |
+| **Выборы** | `choice Вариант А \| Вариант Б` | Вывод интерактивного меню выбора |
+| **Условия** | `if selected == 1 ... fi` | Ветвление в зависимости от выбора |
+| **Переменные** | `setvar var = 1` | Установка локальной или глобальной переменной |
+| **Переход** | `jump next.scr` | Переход к другому файлу скрипта |
 
 ---
 
-## 🚀 Advanced Deployment & Testing
+## ⚠️ Возможные проблемы и крахи при портировании
 
-1. Place your novel folder in `novels/YourNovelName`.
-2. Configure `novels/config.vnds`:
-   ```ini
-   launchermode=0
-   defaultnovel=YourNovelName
-   devmode=1
-   ```
-3. Run the PSP emulator or hardware loader. Check `vnds_audio.log` for real-time diagnostic traces of all asset loading and audio events.
+1. **Неверный регистр имен файлов:**  
+   Интерпретатор чувствительнен к регистру (`Background.png` и `background.png` — разные файлы). Проверяйте пути в скриптах.
+2. **Слишком большие изображения:**  
+   Фоны и CG должны быть оптимизированы под разрешение PSP (`480x272`). Возможно я в скорем времени напишу конвертер для этого, но в любом случае вы можете конвертировать самостоятельно.
+3. **Отладка крахов:**  
+   Если новелла вылетает при запуске определенной сцены, включите `devmode=1` в `novels/config.vnds`. В файле `vnds_audio.log` сохранится точный номер строки (`pc`) и имя файла (`.scr`), на котором произошел сбой.
 
 ---
-*Happy porting and developing!* — **iamfeelingbad**
+*Успешного портирования* — **iamfeelingbad**
