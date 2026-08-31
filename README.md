@@ -16,7 +16,7 @@
 Это оптимизированный(нет, ну немножко да) интерпретатор визуальных новелл для PlayStation Portable на базе Lua, созданный для запуска новелл созданных под VNDS, с гибким конфигом и полной поддержкой русского языка.
 
 ### Главное меню / Лаунчер
-<img src="bloom vnds menu.png" alt="Bloom VNDS Menu" width="700"/>
+<img src="bloom vnds menu.jpg" alt="Bloom VNDS Menu" width="700"/>
 
 ### Narcissu
 <img src="bloom vnds narcissu demonstration.png" alt="Narcissu Demonstration" width="700"/>
