@@ -13,7 +13,7 @@
 
 <img src="bloom vnds logo transparent.png" alt="Bloom VNDS Logo" width="600"/>
 
-Добро пожаловать в **Bloom VNDS Interpreter** для PlayStation Portable (PSP). Это оптимизированный(нет, ну немножко да) интерпретатор визуальных новелл на базе Lua (VNDS), созданный для запуска новелл созданных под VNDS, гибким конфигом и полной поддержкой русского языка.
+Добро пожаловать в **Bloom VNDS Interpreter** для PlayStation Portable (PSP). Это оптимизированный(нет, ну немножко да) интерпретатор визуальных новелл на базе Lua, созданный для запуска новелл созданных под VNDS, гибким конфигом и полной поддержкой русского языка.
 
 ### Главное меню / Лаунчер
 <img src="bloom vnds menu.png" alt="Bloom VNDS Menu" width="700"/>
