@@ -11,7 +11,7 @@
 
 <div align="center">
 
-<img src="bloom vnds logo transparent.png" alt="Bloom VNDS Logo" width="600"/>
+<img src="bloom vnds logo.png" alt="Bloom VNDS Logo" width="600"/>
 
 Это оптимизированный(нет, ну немножко да) интерпретатор визуальных новелл для PlayStation Portable на базе Lua, созданный для запуска новелл созданных под VNDS, с гибким конфигом и полной поддержкой русского языка.
 
