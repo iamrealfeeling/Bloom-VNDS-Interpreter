@@ -88,5 +88,5 @@ boxAlpha=180
 
 ## 📜 Благодарности и авторы
 
-- **Окружение исполнения Lua:** [Lua Player by Yulia Team](https://github.com/YuliaTeam/LuaPlayerYT)
+- **Окружение исполнения Lua:** [Lua Player by Yulia Team](https://github.com/antim0118/LuaPlayer-by-YuliaTeam)
 - **Адаптация и разработка:** **iamfeelingbad**
