@@ -120,12 +120,12 @@ function save.systemSave(novelRoot, interpState, title)
     local saveTitle = isRu and "Сохранение игры" or "Game Save"
     local desc = isRu and ("Новелла: " .. (title or "Visual Novel")) or ("Novel: " .. (title or "Visual Novel"))
 
-    local iconPath = "vnds/savelogo.png"
+    local iconPath = saveBg
     if not System.isFile(iconPath) then
         iconPath = saveBg
     end
 
-    local rez = nil
+	local rez = nil
     pcall(function()
         rez = System.SaveData(saveTitle, "Save Slot", desc, dir .. "res", iconPath, nil)
     end)
@@ -180,17 +180,18 @@ function save.systemSaveCustom(novelRoot, interpState, title, thumbPath)
     local ok, data = pcall(serialize, interpState)
     if not ok then return false, "serialize failed" end
 
+	local iconPath = dir..'res/saveBg.png'
+
     pcall(function()
         screen.clear(Color.new(0, 0, 0))
         screen.flip()
-        LUA.screenshot(dir .. "res/savebg.png", 480, 272)
+        LUA.screenshot(iconPath, 144, 80)
     end)
 
     local isRu = (_G.language == "ru")
     local saveTitle = isRu and "Сохранение игры" or "Game Save"
     local desc = isRu and ("Новелла: " .. (title or "Visual Novel")) or ("Novel: " .. (title or "Visual Novel"))
     
-    local iconPath = "vnds/savelogo.png"
     if not System.isFile(iconPath) then
         iconPath = "vnds/savelogo.jpg"
     end
