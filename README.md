@@ -1,70 +1,58 @@
-#  Bloom VNDS Interpreter
+# Bloom VNDS Interpreter
 
 <div align="center">
 
 [![Platform: PSP](https://img.shields.io/badge/Platform-PSP-blue.svg?style=for-the-badge&logo=playstationportable)](https://www.playstation.com/)
-[![Engine: VNDS Lua](https://img.shields.io/badge/Engine-VNDS%20Lua-purple.svg?style=for-the-badge&logo=lua)](https://www.lua.org/)
-[![Status: Active](https://img.shields.io/badge/Status-Active%20&%20Optimized-success.svg?style=for-the-badge)]()
-
-**Maintained & Engineered by iamfeelingbad**
+[![Engine: VNDS](https://img.shields.io/badge/Engine-VNDS%20Lua-purple.svg?style=for-the-badge&logo=lua)](https://www.lua.org/)
 
 </div>
 
 ---
 
-## 🖼️ Showcase & Gallery / Галерея
-
 <div align="center">
 
-### 🌟 Project Logo
 <img src="bloom vnds logo transparent.png" alt="Bloom VNDS Logo" width="600"/>
 
-### 🎮 XMB / Launcher Menu Interface
+Добро пожаловать в **Bloom VNDS Interpreter** для PlayStation Portable (PSP). Это оптимизированный(нет, ну немножко да) интерпретатор визуальных новелл на базе Lua (VNDS), созданный для запуска новелл созданных под VNDS, гибким конфигом и полной поддержкой русского языка.
+
+### Главное меню / Лаунчер
 <img src="bloom vnds menu.png" alt="Bloom VNDS Menu" width="700"/>
 
-### 🌸 Narcissu Russian Edition (Demonstration)
+### Narcissu
 <img src="bloom vnds narcissu demonstration.png" alt="Narcissu Demonstration" width="700"/>
 
-### ❓ The Question / Visual Novel Showcase
+### The Question
 <img src="bloom vnds the question demonstration.png" alt="The Question Demonstration" width="700"/>
 
 </div>
 
 ---
 
-## 📖 About / О проекте
+## ✨ Ключевые особенности и улучшения
 
-Welcome to the definitive **Bloom VNDS Interpreter** for the PlayStation Portable (PSP). This project delivers an ultra-smooth, highly optimized Lua-based VNDS runtime environment designed to run complex visual novels with custom dashboard themes, advanced audio routing, robust configuration management, and full localized Russian script support.
-
-> *"Bringing immersive storytelling to the PSP with uncompromising performance and elegance."* — **iamfeelingbad**
-
----
-
-## ✨ Key Features & Improvements
-
-- 🚀 **Direct Startup (`launchermode`):** Toggle launcher mode in config. When disabled (`launchermode=0`), the engine immediately bypasses the XMB menu and boots your chosen visual novel (`defaultnovel`) instantly. When exiting the novel via Main Menu, it cleanly restarts or exits.
-- 🎨 **Full Menu Customization:** Tailor the UI appearance to your exact liking. Switch color themes, adjust dialog box alpha transparency, customize border accents, scale fonts (`fontScale`), and toggle text shadows on the fly.
-- 🛠️ **Developer Mode (`devmode`):** Enable deep diagnostic tracing. When `devmode=1`, all music requests (`music`, `sound`), channel allocations, and interpreter script steps (`STEP [file:pc]`) are logged in real-time to `vnds_audio.log`.
-- 📜 **Advanced Chapter Menu & Scrolling:** Handles long multi-chapter choices (such as 9+ chapters in *Narcissu*) with built-in vertical scrolling and indicator arrows (`▲` / `▼`).
-- 🇷🇺 **Russian Localization:** Full support for Cyrillic dialogue rendering, translated game menus, and translated chapter structures.
+- 🚀 **Прямой запуск (`launchermode`):** Отключите лаунчер в конфиге (`launchermode=0`), и движок будет мгновенно запускать выбранную новеллу (`defaultnovel`), минуя лаунчер. Кнопка «Главное меню» в паузе при этом перезапускает новеллу с начала.
+- 🎨 **Полная кастомизация меню:** Настраивайте цветовые темы, прозрачность диалоговых окон, акценты рамки, размер шрифтов (`fontScale`) и тени текста прямо на лету.
+- 🛠️ **Режим разработчика (`devmode`):** Глубокая диагностика. При `devmode=1` все события аудио, переключения треков (`music`, `sound`), распределение каналов и пошаговые инструкции скриптов (`STEP [file:pc]`) записываются в файл `vnds_audio.log`.
+- 📜 **Прокрутка длинных списков выборов:** Поддержка вертикальной прокрутки с индикаторами (`▲` / `▼`) для меню, содержащих более 5 вариантов (например, выбор глав в *Narcissu*).
+- 🇷🇺 **Русская локализация:** Полная поддержка кириллицы в диалогах, интерфейсе и структуре глав, так же есть другие языки.
 
 ---
 
-## ⚙️ Configuration Guide (`novels/config.vnds`)
+## ⚙️ Настройка конфигурации (`novels/config.vnds`)
 
-Configure your PSP experience precisely using `novels/config.vnds`:
+Вы можете детально настроить поведение движка в файле `novels/config.vnds`:
 
 ```ini
-# Launcher Mode: 1 = Enabled (shows menu), 0 = Disabled (direct boot)
+# Режим лаунчера: 1 = включен (показывать меню), 0 = выключен (прямой запуск)
 launchermode=0
 
-# Default Novel to launch when launchermode=0
+# Новелла для прямого запуска при launchermode=0
 defaultnovel=Saya no Uta
 
-# Developer Mode logging: 1 = Enabled, 0 = Disabled
+# Режим разработчика (логирование): 1 = включен, 0 = выключен
 devmode=1
 
-# Interface & Reading Preferences
+# Настройки интерфейса и чтения
 language=ru
 theme=1
 fontScale=1.25
@@ -75,22 +63,30 @@ boxAlpha=180
 
 ---
 
-## 🛠️ Controls & Shortcuts
+## 🛠️ Управление и горячие клавиши
 
-| PSP Button | Action / Shortcut |
+| Кнопка PSP | Действие / Функция |
 | :--- | :--- |
-| **Cross (✕)** | Advance text / Confirm selection |
-| **Circle (○)** | Back / Cancel / Skip |
-| **Select** | Open In-Game Pause Menu (Save / Load / Main Menu) |
-| **Triangle (△)** | Quick Return to Launcher / Exit |
-| **Square (□)** | Open Dialogue Backlog / History |
-| **L-Trigger** | Quick Load Menu |
-| **D-Pad / L&R** | Navigate choices and settings |
+| **Крестик (✕)** | Пропуск текста / Подтверждение выбора |
+| **Круг (○)** | Назад / Пропуск |
+| **Select** | Меню паузы (Сохранить / Загрузить / Главное меню) |
+| **Треугольник (△)** | Режим авточтения |
+| **Квадрат (□)** | История диалогов (бэклог) |
+| **L-триггер** | Быстрая загрузка |
+| **D-Pad / L&R** | Навигация по выборам и настройкам |
 
 ---
 
-## 📜 Credits & Acknowledgements
+## ⚠️ Возможные крахи и нюансы движка
 
-- **Core Architecture & Engine:** Bloom VNDS / Digital Haze / Insani
-- **Adaptation, Custom Features & Maintenance:** **iamfeelingbad**
-- **Localization:** Insani Russian Team
+Поскольку движок работает на аппаратном ограничении PSP и интерпретирует скрипты «на лету», возможны следующие редкие проблемы (я активно работаею над их устранением в патчах):
+1. **Переполнение памяти (Out of Memory):** При резкой смене тяжелых фонов (`bgload`) без предварительной очистки текстур. Решение: сборщик мусора периодически очищает память, но рекомендуется следить за весом графики а так же чаще сохранятся.
+2. **Неверный формат аудио:** Использование стерео-файлов вместо моно для `.wav` озвучки/эффектов приводит к сбоям декодера на канале `WAV_x`.
+3. **Ошибки синтаксиса в скриптах (`.scr`):** Пропуск закрывающего тега `fi` в конструкции `if` вызывает аварийный останов с выводом строки ошибки (`STEP CRASH`). Включайте `devmode=1`, чтобы точный `pc` и файл записывались в `vnds_audio.log`.
+
+---
+
+## 📜 Благодарности и авторы
+
+- **Окружение исполнения Lua:** [Lua Player by Yulia Team](https://github.com/YuliaTeam/LuaPlayerYT)
+- **Адаптация, кастомизация и разработка:** **iamfeelingbad**
